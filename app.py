@@ -155,10 +155,3 @@ def check_code():
         return jsonify({"error": "Internal server error"}), 500
 
 
-if __name__ == "__main__":
-    try:
-        ensure_directory_exists(UPLOAD_FOLDER)
-        ensure_directory_exists("slides")
-        app.run(debug=True)
-    except Exception as e:
-        logger.error(f"Error starting application: {str(e)}")
