@@ -91,7 +91,7 @@ def create_powerpoint():
         if slide_with_img is None:
             return jsonify({"error": "Slide with image is required"}), 400
 
-        ensure_directory_exists("slides")
+        ensure_directory_exists("../slides")
 
         try:
             slide_content_str = "## ".join(slide_content)
@@ -105,7 +105,7 @@ def create_powerpoint():
                             slide_content[i], slide_content_str
                         )
                         if slide_with_img
-                        else "./slides/_placeholder.png"
+                        else "../slides/_placeholder.png"
                     )
                     slide_content[i] += f"\n\n![img]({img_url})"
 
@@ -114,7 +114,7 @@ def create_powerpoint():
             # to avoid overwriting existing files add datetime and random number to the filename
             slide_name = f"{slide_name}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{randint(0, 9999)}"
 
-            markdown_to_pptx(md_content, f"slides/{slide_name}.pptx")
+            markdown_to_pptx(md_content, f"../slides/{slide_name}.pptx")
 
             return jsonify(
                 {
@@ -135,7 +135,7 @@ def create_powerpoint():
 @app.route("/api/download/<path:filename>", methods=["GET"])
 def download_file(filename):
     try:
-        return send_from_directory("slides", filename, as_attachment=True)
+        return send_from_directory("../slides", filename, as_attachment=True)
     except Exception as e:
         logger.error(f"Error downloading file {filename}: {str(e)}")
         return jsonify({"error": f"Error downloading file: {str(e)}"}), 500
@@ -155,3 +155,6 @@ def check_code():
         return jsonify({"error": "Internal server error"}), 500
 
 
+
+# if __name__ == "__main__":
+#     app.run(debug=True)
