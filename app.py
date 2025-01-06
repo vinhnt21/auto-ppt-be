@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+from werkzeug.utils import send_from_directory
+
 from services.slides_service import SlideService
 import env_config
 
 app = Flask(__name__)
-
+CORS(app)
 slide_service = SlideService()
 app.config['MAX_CONTENT_LENGTH'] = env_config.MAX_CONTENT_LENGTH
 app.config['UPLOAD_FOLDER'] = env_config.UPLOAD_FOLDER
-
+app.config['SLIDE_FOLDER'] = env_config.SLIDE_FOLDER
 
 @app.route('/api/slides/get-outline', methods=['POST'])
 def get_outline():
@@ -52,12 +55,24 @@ def create_slide():
         slide_content = data.get('slide_content')
         subject = data.get('subject')
         template_name = data.get('template_name')
-        slide_file = slide_service.create_slide(slide_content, subject, template_name)
-        return jsonify({'file': slide_file}), 200
+        output_file_name = slide_service.create_slide(slide_content, subject, template_name)
+        return jsonify({'file_name': output_file_name}), 200
 
     except Exception as e:
         return jsonify({'message': str(e)}), 400
 
+
+@app.route('/api/slides/download/<file_name>', methods=['GET'])
+def download_file(file_name):
+    try:
+        return send_from_directory(
+            app.config['SLIDE_FOLDER'],
+            file_name,
+            as_attachment=True,
+            environ=request.environ
+        )
+    except Exception as e:
+        return jsonify({'message': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

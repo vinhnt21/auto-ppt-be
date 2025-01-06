@@ -1,3 +1,6 @@
+from datetime import datetime
+from random import randint
+
 from .base_handler import BaseSubjectHandler
 from utils.ai.models import generate_text_4o, generate_text_4o_mini, generate_image_url
 import utils.ai.subject_prompts.math_prompts as MATH_PROMPTS
@@ -30,6 +33,8 @@ class MathHandler(BaseSubjectHandler):
         return generate_text_4o(prompt)
 
     def create_slide(self, slide_content: str, subject: str, template_name: str = 'light'):
+        print('Creating slide...')
+
         def _convert_str_to_dict(s):
             s = s.split("\n")
             s = [line for line in s if line.strip() != ""]
@@ -54,21 +59,23 @@ class MathHandler(BaseSubjectHandler):
             _prompt = generate_text_4o_mini(_prompt)
             return generate_image_url(_prompt)
 
-
         prompt = MATH_PROMPTS.file_name.format(slide_content=slide_content)
-        output_file_name = generate_text_4o_mini(prompt)
 
+        output_file_name = generate_text_4o_mini(prompt)
+        output_file_name = f"{output_file_name}_{datetime.now().strftime('%Y%m%d%H%M%S')}_{randint(0, 9999)}.pptx"
         prs = init_presentation()
+
         slides = slide_content.strip().strip("---").split("---\n")
+
         slides = [slide for slide in slides if slide]
         for slide in slides:
+            slide = slide.strip()
             dict_slide = _convert_str_to_dict(slide)
-
             layout = dict_slide["layout"]
             # if dict_slide contains image
             if "image_path" in dict_slide:
                 dict_slide["image_path"] = get_img_url(slide_content, dict_slide["image_path"])
-                print(dict_slide["image_path"])
+            print('Creating slide with layout:', layout)
             create_slide(prs, layout, **dict_slide)
         apply_global_styles(prs, template_name)
         save_presentation(prs, output_file_name)

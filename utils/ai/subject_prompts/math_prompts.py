@@ -131,10 +131,10 @@ layout = """
 **Yêu cầu:**
 
 1. **Định dạng trả về:**
-   - Sử dụng Markdown với mỗi slide phân cách bằng `---`.
+   - Mỗi slide phân cách bằng `---`.
    - Mỗi thành phần của slide được phân cách bằng `***`.
    - Mỗi slide phải được định nghĩa theo đúng layout và thành phần được liệt kê ở trên.
-   - Chỉ trả về nội dung Markdown để chuyển đổi thành slide PowerPoint luôn, không thêm bất kỳ ký tự dư thừa nào như `````.
+   - Chỉ trả về nội dung theo format yêu cầu để chuyển đổi thành slide PowerPoint luôn, không thêm bất kỳ ký tự dư thừa nào như ``` ở đầu và cuối.
 
 2. **Tuân thủ nghiêm ngặt:**
    - Không thay đổi tên các layout và các thành phần đã định nghĩa.
@@ -144,6 +144,8 @@ layout = """
 3. **Phân bổ nội dung:**
    - Đối với mỗi phần nội dung trong bài giảng, chọn layout phù hợp và điền đầy đủ các thành phần tương ứng.
    - Nếu có công thức toán học, sử dụng ký hiệu toán học chính xác để hiển thị đúng trên slide PowerPoint.
+4. **Đối với các kí hiệu toán học**: 
+   - Không sử dụng LaTeX mà hãy sử dụng các kí hiệu thông thường hoặc kí tự đặc biệt để đảm bảo tính chính xác khi hiển thị trên slide PowerPoint.  
 
 **Định dạng mẫu cho mỗi slide:**
 
@@ -243,7 +245,7 @@ file_name = '''
 Đây là nội dung slide PowerPoint cho bài giảng môn Toán:
 {slide_content}
 
-Nhiệm vụ: Tạo tên file cho slide PowerPoint này.
+Nhiệm vụ: Tạo tên file cho slide PowerPoint này liên quan đến nội dung slide (khoảng 5-10 từ).
 Yêu cầu:
     - Chỉ  trả về tên file, không thêm dấu ``` ở đầu và cuối.
     - Trả về tên file không dấu tiếng Việt, không kí tự đặc biệt, không khoảng trắng.

@@ -11,22 +11,22 @@
 
 - Method: POST
 - Request:
-  - body (form-data):
-    - file: docx or pdf file
-    - user_input: string
-    - subject: string
+    - body (form-data):
+        - file: docx or pdf file
+        - user_input: string
+        - subject: string
 - phải có ít nhất 1 trường files hoặc user_input
 
 - Response:
 
-  - Suscess: 200
+    - Suscess: 200
 
-    - body:
-      - outline: string
-
-  - Error: 400
-    - body:
-      - message: string
+        - body:
+            - outline: [string] (Array nhiều string, hiển thị vào các ô input cho người dùng chỉnh sửa)
+            - content: string (Nội dung input của người dùng)
+    - Error: 400
+        - body:
+            - message: string
 
 ---
 
@@ -44,20 +44,20 @@
 - Method: POST
 - Request:
 
-  - body (json):
-    - outline: string
-    - subject: string
-
+    - body (json):
+        - outline: [string] (Array nhiều string mà người dùng vừa chỉnh sửa)
+        - subject: string
+        - content: string
 - Response:
 
-  - Suscess: 200
+    - Suscess: 200
 
-    - body:
-      - content: string
+        - body:
+            - content: string
 
-  - Error: 400
-    - body:
-      - message: string
+    - Error: 400
+        - body:
+            - message: string
 
 ---
 
@@ -72,107 +72,12 @@
 
 - Method: POST
 - Request:
-  - body (json):
-    - slide-content: string
-    - content: string
-    - subject: string
+    - body (json):
+        - slide-content: string
+        - subject: string
+        - template_name: string
 
-
-```json
- {
-    "light": {
-        "title_style": {
-            "font_name": "Helvetica",
-            "font_size": 44,
-            "font_color": (31, 73, 125)  # Navy Blue
-        },
-        "subtitle_style": {
-            "font_name": "Helvetica",
-            "font_size": 32,
-            "font_color": (68, 114, 196)  # Light Blue
-        },
-        "content_style": {
-            "font_name": "Arial",
-            "font_size": 24,
-            "font_color": (0, 0, 0)  # Black
-        },
-        "bg_color": (255, 255, 255)  # White
-    },
-
-    "dark": {
-        "title_style": {
-            "font_name": "Helvetica",
-            "font_size": 44,
-            "font_color": (255, 255, 255)  # White
-        },
-        "subtitle_style": {
-            "font_name": "Helvetica",
-            "font_size": 32,
-            "font_color": (189, 215, 238)  # Light Blue
-        },
-        "content_style": {
-            "font_name": "Arial",
-            "font_size": 24,
-            "font_color": (242, 242, 242)  # Light Gray
-        },
-        "bg_color": (44, 44, 44)  # Dark Gray
-    },
-
-    "monochrome": {
-        "title_style": {
-            "font_name": "Roboto",
-            "font_size": 44,
-            "font_color": (0, 0, 0)  # Black
-        },
-        "subtitle_style": {
-            "font_name": "Roboto",
-            "font_size": 32,
-            "font_color": (64, 64, 64)  # Dark Gray
-        },
-        "content_style": {
-            "font_name": "Roboto",
-            "font_size": 24,
-            "font_color": (89, 89, 89)  # Medium Gray
-        },
-        "bg_color": (242, 242, 242)  # Light Gray
-    },
-
-    "vibrant": {
-        "title_style": {
-            "font_name": "Impact",
-            "font_size": 44,
-            "font_color": (255, 89, 0)  # Orange
-        },
-        "subtitle_style": {
-            "font_name": "Arial",
-            "font_size": 32,
-            "font_color": (0, 168, 133)  # Turquoise
-        },
-        "content_style": {
-            "font_name": "Arial",
-            "font_size": 24,
-            "font_color": (64, 64, 64)  # Dark Gray
-        },
-        "bg_color": (255, 255, 240)  # Ivory
-    },
-
-    "elegant": {
-        "title_style": {
-            "font_name": "Garamond",
-            "font_size": 44,
-            "font_color": (128, 0, 32)  # Burgundy
-        },
-        "subtitle_style": {
-            "font_name": "Garamond",
-            "font_size": 32,
-            "font_color": (112, 48, 48)  # Dark Red
-        },
-        "content_style": {
-            "font_name": "Calibri",
-            "font_size": 24,
-            "font_color": (64, 64, 64)  # Dark Gray
-        },
-        "bg_color": (245, 245, 245)  # Off White
-    }
-}
-```
+- Response:
+    - Suscess: 200
+        - body:
+            - file_name: string (link download file slide, hiển thị thành 1 nút khi bấm vào thì tải file về)
