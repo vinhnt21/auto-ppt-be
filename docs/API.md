@@ -1,86 +1,178 @@
-# Luồng xử lý điển hình:
+# Các bước xử lý
 
-- Upload DOCX → Nhận nội dung slides
-- Tạo PowerPoint → Nhận link download
-- Download file PPTX đã tạo
+## 1. Lấy mục lục bài giảng
 
----
+### Mô tả:
 
-# Upload DOCX API
+- Người dùng tải lên file docx hoặc pdf, hoặc nhập nội dung bài giảng vào ô input
+- Nhận về một mục lục bài giảng
 
-- Endpoint: /upload-docx
+### API: `/api/slides/get-outline`
+
 - Method: POST
-- Content-Type: multipart/form-data
+- Request:
+  - body (form-data):
+    - file: docx or pdf file
+    - user_input: string
+    - subject: string
+- phải có ít nhất 1 trường files hoặc user_input
 
-- Chức năng: Upload và xử lý file DOCX
-- Input: File DOCX (max 5MB)
-- Output:
+- Response:
 
-  - Success: {"slides_content": [...]} (200)
-  - Error: {"error": "error message"} (400/500)
+  - Suscess: 200
 
-- Xử lý:
-  - Kiểm tra file hợp lệ
-  - Lưu file vào thư mục uploads
-  - Trích xuất nội dung từ DOCX
-  - Chuyển đổi thành định dạng slides
+    - body:
+      - outline: string
+
+  - Error: 400
+    - body:
+      - message: string
 
 ---
 
-# Create PowerPoint API
+## 2. Tạo nội dung từng slide tương ứng với mục lục, hiển thị trên trình duyệt trước
 
-- Endpoint: /create-powerpoint
+### Mô tả:
+
+- Người dùng bấm nút tạo nội dung
+- Nhận về nội dung từng slide tương ứng với mục lục
+
+### API:
+
+#### `/api/slides/get-content`
+
 - Method: POST
-- Content-Type: application/json
+- Request:
 
-- Chức năng: Tạo file PowerPoint từ nội dung slides
-- Input Body:
+  - body (json):
+    - outline: string
+    - subject: string
 
-  ```json
-  {
-  "slides_content": ["nội dung slide"],
-  "slide_with_img": boolean
-  }
-  ```
+- Response:
 
-- Output:
+  - Suscess: 200
 
-  - Success: {"link_to_download": "/download/filename.pptx"} (200)
-  - Error: {"error": "error message"} (400/500)
+    - body:
+      - content: string
 
-- Xử lý:
-
-  - Tạo nội dung markdown
-  - Thêm hình ảnh nếu cần
-  - Tạo file MD và PPTX
-  - Trả về link download
+  - Error: 400
+    - body:
+      - message: string
 
 ---
 
-# Download File API
+## 3. Tạo file slide
 
-- Endpoint: /download/<filename>
-- Method: GET
+### Mô tả:
 
-- Chức năng: Download file PowerPoint đã tạo
-- Input: Tên file trong URL
-- Output:
+- Người dùng bấm nút tạo file slide
+- Nhận về file slide
 
-  - Success: File PPTX
-  - Error: {"error": "error message"} (500)
+#### `/api/slides/create-slide`
 
-- Xử lý:
+- Method: POST
+- Request:
+  - body (json):
+    - slide-content: string
+    - content: string
+    - subject: string
 
-- Tìm file trong thư mục slides
-- Gửi file cho client download
 
----
+```json
+ {
+    "light": {
+        "title_style": {
+            "font_name": "Helvetica",
+            "font_size": 44,
+            "font_color": (31, 73, 125)  # Navy Blue
+        },
+        "subtitle_style": {
+            "font_name": "Helvetica",
+            "font_size": 32,
+            "font_color": (68, 114, 196)  # Light Blue
+        },
+        "content_style": {
+            "font_name": "Arial",
+            "font_size": 24,
+            "font_color": (0, 0, 0)  # Black
+        },
+        "bg_color": (255, 255, 255)  # White
+    },
 
-# Các tính năng chung:
+    "dark": {
+        "title_style": {
+            "font_name": "Helvetica",
+            "font_size": 44,
+            "font_color": (255, 255, 255)  # White
+        },
+        "subtitle_style": {
+            "font_name": "Helvetica",
+            "font_size": 32,
+            "font_color": (189, 215, 238)  # Light Blue
+        },
+        "content_style": {
+            "font_name": "Arial",
+            "font_size": 24,
+            "font_color": (242, 242, 242)  # Light Gray
+        },
+        "bg_color": (44, 44, 44)  # Dark Gray
+    },
 
-- Xử lý lỗi toàn diện với try-catch
-- Logging chi tiết
-- Tự động tạo thư mục cần thiết
-- Giới hạn kích thước file upload (5MB)
-- Hỗ trợ CORS
-- Chỉ chấp nhận file .docx
+    "monochrome": {
+        "title_style": {
+            "font_name": "Roboto",
+            "font_size": 44,
+            "font_color": (0, 0, 0)  # Black
+        },
+        "subtitle_style": {
+            "font_name": "Roboto",
+            "font_size": 32,
+            "font_color": (64, 64, 64)  # Dark Gray
+        },
+        "content_style": {
+            "font_name": "Roboto",
+            "font_size": 24,
+            "font_color": (89, 89, 89)  # Medium Gray
+        },
+        "bg_color": (242, 242, 242)  # Light Gray
+    },
+
+    "vibrant": {
+        "title_style": {
+            "font_name": "Impact",
+            "font_size": 44,
+            "font_color": (255, 89, 0)  # Orange
+        },
+        "subtitle_style": {
+            "font_name": "Arial",
+            "font_size": 32,
+            "font_color": (0, 168, 133)  # Turquoise
+        },
+        "content_style": {
+            "font_name": "Arial",
+            "font_size": 24,
+            "font_color": (64, 64, 64)  # Dark Gray
+        },
+        "bg_color": (255, 255, 240)  # Ivory
+    },
+
+    "elegant": {
+        "title_style": {
+            "font_name": "Garamond",
+            "font_size": 44,
+            "font_color": (128, 0, 32)  # Burgundy
+        },
+        "subtitle_style": {
+            "font_name": "Garamond",
+            "font_size": 32,
+            "font_color": (112, 48, 48)  # Dark Red
+        },
+        "content_style": {
+            "font_name": "Calibri",
+            "font_size": 24,
+            "font_color": (64, 64, 64)  # Dark Gray
+        },
+        "bg_color": (245, 245, 245)  # Off White
+    }
+}
+```
