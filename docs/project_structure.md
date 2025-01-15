@@ -1,43 +1,30 @@
-
-# Dự án Flask - Cấu trúc File và Tác Dụng Từng File
 ```
 │
-├── app.py                 # File chính, định nghĩa routes và API endpoints
-├── env_config.py          # Quản lý biến môi trường
-├── gunicorn_config.py     
-├── requirements.txt       
-├── .env                   
-├── .gitignore            
+├── app.py
+├── env_config.py
+├── gunicorn_config.py
+├── requirements.txt
+├── .env
+├── .gitignore
 │
-├── services/              
+├── services/
 │   ├── __init__.py
-│   ├── slides_service.py  # Logic chung cho việc tạo slides
-│   └── subject_handlers/  # Xử lý riêng cho từng môn học
-│       ├── __init__.py
-│       ├── base_handler.py    # Class cơ sở cho các handler
-│       ├── math_handler.py    
-│       ├── literature_handler.py
-│       └── civics_handler.py
+│   └── slides_service.py
 │
-├── utils/                 
-│   ├── ai/               
+├── utils/
+│   ├── ai/
 │   │   ├── __init__.py
-│   │   ├── models.py     
-│   │   ├── base_prompts.py    # Prompts cơ bản
-│   │   └── subject_prompts/    # Tách prompts theo môn
-│   │       ├── __init__.py
-│   │       ├── math_prompts.py
-│   │       ├── literature_prompts.py
-│   │       └── civics_prompts.py
+│   │   ├── models.py
+│   │   └── prompts.py
 │   │
-│   ├── file_handlers/     
+│   ├── file_handlers/
 │   │   ├── __init__.py
-│   │   ├── docx_handler.py       
-│   │   └── pdf_handler.py        
+│   │   ├── docx_handler.py
+│   │   └── pdf_handler.py
 │   │
-│   └── slides/           
+│   └── slides/
 │       ├── __init__.py
-│       ├── slide_generator.py  # Logic tạo slides
+│       └── slide_generator.py
 │
-└── uploads/             # Thư mục lưu file upload
+└── uploads/
 ```
