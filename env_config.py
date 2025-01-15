@@ -8,8 +8,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 # App Configuration
 CODE = os.getenv("CODE")
-UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER")
-SLIDE_FOLDER = os.getenv("SLIDE_FOLDER")
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "/var/data/uploads")
+SLIDE_FOLDER = os.getenv("SLIDE_FOLDER", "/var/data/slides")
 MAX_CONTENT_LENGTH = int(os.getenv("MAX_CONTENT_LENGTH", 10 * 1024 * 1024))
 
 
