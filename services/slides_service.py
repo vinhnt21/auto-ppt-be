@@ -44,15 +44,11 @@ class SlideService:
     def get_slide_content(self, outline: str, content: str) -> str:
         prompt = PROMPTS.content.format(outline=outline, content=content)
         content = generate_text_4o(prompt)
-        with open("slides.xml", "w") as f:
-            f.write(content)
         content = xml_to_slides_dict(content)
         return {"content": content}
 
     def create_slide(self, slides: list, template_name: str = "Facet"):
         slides_str = slides_dict_to_xml(slides_list=slides)
-        with open("slides.xml", "w") as f:
-            f.write(slides_str)
 
         def get_img_url(_slide_content, img_description):
             _prompt = PROMPTS.illustration.format(

@@ -1,6 +1,6 @@
 ## Các bước xử lý
 
-### 1. Lấy mục lục bài giảng
+### 1. Lấy mục lục 
 
 #### Mô tả:
 
@@ -67,7 +67,7 @@
 - **Request**:
 
   - **body** (json):
-    - `slide-content`: string
+    - `slide`: string
     - `template_name`: string
 
 - **Response**:
