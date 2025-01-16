@@ -110,13 +110,19 @@ content = """
         <item>Sử dụng linh hoạt các layout để trình bày nội dung một cách hợp lý và dễ hiểu.</item>
         <item>Đầu ra: Nội dung dạng XML, trình bày theo thứ tự các slide.</item>
         <item> Trả về nội dung dạng XML để tôi tạo file luôn, không thêm ``` ở đầu và cuối.</item>
-        <item> Với phần file content trình bày nội dung theo gạch đầu dòng (bullet point markdown) (không có ý con). </item>
+        <item> Với phần file content trình bày nội dung theo gạch đầu dòng (-) và không có ý con. Mội slide có thể có từ 3 đến 6 gạch đầu dòng </item>
         <item> Thêm một vài slide có hình ảnh minh hoạ để tăng tính sinh động </item>
     </required>
-    
     <format>
         <item>Nội dung xml chỉ bao gồm các thẻ slide, type, structure, field.</item>
-        <item> Toàn bộ nội dung bọc trong thẻ <presentation></presentation>.</item>
+        <item>Toàn bộ nội dung bọc trong thẻ <presentation></presentation>.</item>
+        <item>Nội dung trả về phải tuân thủ chính xác cấu trúc đã định sẵn để sử dụng để convert qua slide luôn.</item>
+        <item>Sử dụng các ký tự thay thế để tránh lỗi, bao gồm:</item>
+        <subformat>
+            <item>Ký tự nhỏ hơn `<` được thay bằng `&lt;`.</item>
+            <item>Ký tự lớn hơn `>` được thay bằng `&gt;`.</item>
+            <item>Ký tự `&` được thay bằng `&amp;`.</item>
+        </subformat>
     </format>
     <example>
         <presentation>

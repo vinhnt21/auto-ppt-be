@@ -19,6 +19,7 @@ class SlideService:
         self.pdf_handler = PdfHandler()
 
     def get_outline(self, file, user_input: str) -> dict[str, str]:
+        print("Getting outline")
         content = ""
         if file and user_input:
             file_extension = file.filename.split(".")[-1].lower()
@@ -26,7 +27,6 @@ class SlideService:
                 content = f"{user_input}\nTham khảo nội dung tài liệu dưới: {self.docx_handler.extract_text(file)}"
             elif file_extension == "pdf":
                 content = f"{user_input}\nTham khảo nội dung tài liệu dưới: {self.pdf_handler.extract_text(file)}"
-            print(content)
         elif file:
             file_extension = file.filename.split(".")[-1].lower()
             if file_extension == "docx":
@@ -42,12 +42,14 @@ class SlideService:
         return {"outline": outline, "content": content}
 
     def get_slide_content(self, outline: str, content: str) -> str:
+        print("Getting slide content")
         prompt = PROMPTS.content.format(outline=outline, content=content)
         content = generate_text_4o(prompt)
         content = xml_to_slides_dict(content)
         return {"content": content}
 
     def create_slide(self, slides: list, template_name: str = "Facet"):
+        print("Creating slide")
         slides_str = slides_dict_to_xml(slides_list=slides)
 
         def get_img_url(_slide_content, img_description):

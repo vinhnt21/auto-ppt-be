@@ -44,7 +44,8 @@ def init_presentation(template_name=None):
     }
     if template_name is None or template_name not in THEME_TEMPLATES:
         template_path = THEME_TEMPLATES["Facet"]
-    template_path = THEME_TEMPLATES[template_name]
+    else:
+        template_path = THEME_TEMPLATES[template_name]
     prs = Presentation(template_path)
     # Đặt tỷ lệ khung hình 16:9 (10 x 5.625 inch)
     prs.slide_width = Inches(10)

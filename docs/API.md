@@ -1,79 +1,90 @@
-## Các bước xử lý
+# Tài liệu API: Hỗ trợ tạo nội dung slide
 
-### 1. Lấy mục lục 
+## 1. Lấy mục lục 
 
-#### Mô tả:
+### Mô tả
 
-- Người dùng tải lên file docx hoặc pdf, hoặc nhập nội dung bài giảng vào ô input.
-- Nhận về một mục lục bài giảng.
+- Người dùng có thể tải lên file docx hoặc pdf, hoặc nhập nội dung bài giảng trực tiếp vào ô input.
+- Hệ thống sẽ trả về mục lục bài giảng.
 
-#### API: `/api/slides/get-outline`
+### API: `/api/slides/get-outline`
 
-- **Method**: POST
-- **Request**:
-
-  - **body** (form-data):
-    - `file`: docx or pdf file
-    - `user_input`: string
+- **Phương thức**: `POST`
+- **Yêu cầu**:
+  - **Body** (form-data):
+    - `file`: Tệp docx hoặc pdf
+    - `user_input`: Chuỗi nội dung do người dùng nhập
   - **Lưu ý**: Phải có ít nhất một trong hai trường `file` hoặc `user_input`.
 
-- **Response**:
-  - **Success**: 200
-    - **body**:
-      - `outline`: [string] (Array nhiều string, hiển thị vào các ô input cho người dùng chỉnh sửa)
-      - `content`: string (Nội dung input của người dùng)
-  - **Error**: 400
-    - **body**:
-      - `message`: string
+- **Phản hồi**:
+  - **Thành công**: `200`
+    - **Body**:
+      - `outline`: `[string]` (Mảng các chuỗi hiển thị mục lục, để người dùng chỉnh sửa)
+      - `content`: `string` (Nội dung bài giảng của người dùng)
+  - **Lỗi**: `400`
+    - **Body**:
+      - `message`: `string` (Thông báo lỗi)
 
 ---
 
-### 2. Tạo nội dung từng slide tương ứng với mục lục, hiển thị trên trình duyệt trước
+## 2. Tạo nội dung từng slide tương ứng với mục lục
 
-#### Mô tả:
+### Mô tả
 
-- Người dùng bấm nút tạo nội dung.
-- Nhận về nội dung từng slide tương ứng với mục lục.
+- Sau khi người dùng bấm nút tạo nội dung, hệ thống sẽ tạo nội dung từng slide dựa trên mục lục đã chỉnh sửa.
 
-#### API: `/api/slides/get-content`
+### API: `/api/slides/get-content`
 
-- **Method**: POST
-- **Request**:
+- **Phương thức**: `POST`
+- **Yêu cầu**:
+  - **Body** (json):
+    - `outline`: `[string]` (Mảng các chuỗi mục lục đã chỉnh sửa bởi người dùng)
+    - `content`: `string` (Nội dung bài giảng gốc)
 
-  - **body** (json):
-    - `outline`: [string] (Array nhiều string mà người dùng vừa chỉnh sửa)
-    - `content`: string
-
-- **Response**:
-  - **Success**: 200
-    - **body**:
-      - `content`: string
-  - **Error**: 400
-    - **body**:
-      - `message`: string
+- **Phản hồi**:
+  - **Thành công**: `200`
+    - **Body**:
+      - `content`: `string` (Nội dung của từng slide)
+  - **Lỗi**: `400`
+    - **Body**:
+      - `message`: `string` (Thông báo lỗi)
 
 ---
 
-### 3. Tạo file slide
+## 3. Tạo file slide
 
-#### Mô tả:
+### Mô tả
 
-- Người dùng bấm nút tạo file slide.
-- Nhận về file slide.
+- Sau khi người dùng bấm nút tạo file slide, hệ thống sẽ tạo và cung cấp file slide để tải về.
 
-#### API: `/api/slides/create-slide`
+### API: `/api/slides/create-slide`
 
-- **Method**: POST
-- **Request**:
+- **Phương thức**: `POST`
+- **Yêu cầu**:
+  - **Body** (json):
+    - `slide`: `string` (Nội dung slide)
+    - `template_name`: `string` (Tên mẫu giao diện slide)
 
-  - **body** (json):
-    - `slide`: string
-    - `template_name`: string
+- **Phản hồi**:
+  - **Thành công**: `200`
+    - **Body**:
+      - `file_name`: `string` (Liên kết tải file slide, hiển thị dưới dạng nút tải về)
+  - **Lỗi**: `400`
+    - **Body**:
+      - `message`: `string` (Thông báo lỗi)
 
-- **Response**:
-  - **Success**: 200
-    - **body**:
-      - `file_name`: string (link download file slide, hiển thị thành 1 nút khi bấm vào thì tải file về)
-  - **Error**: 400
-    - **body**:
-      - `message`: string
+
+---
+
+## 4. Download
+
+### Mô tả
+
+- Người dùng có thể tải file slide đã tạo về máy.
+
+### API: `/api/slides/download/{file_name}`
+- **Phương thức**: `GET`
+- **Yêu cầu**:
+  - **Params**:
+    - `file_name`: `string` (Tên file slide)
+
